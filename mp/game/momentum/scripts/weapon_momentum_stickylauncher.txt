@@ -17,10 +17,10 @@ WeaponData
 
     "ModelData"
     {
-        "view"      "models/weapons/mom_stickylauncher_classic/mom_stickylauncher_classic.mdl"
-        "world"     "models/weapons/mom_stickylauncher_classic/mom_stickylauncher_classic.mdl"
+        "view"      "models/weapons/mom_stickylauncher/v_mom_stickylauncher.mdl"
+        "world"     "models/weapons/mom_stickylauncher/w_mom_stickylauncher.mdl"
 
-        "sticky"    "models/weapons/mom_stickybomb_classic/mom_stickybomb_classic.mdl"
+        "sticky"    "models/weapons/mom_stickylauncher/mom_stickybomb/mom_stickybomb.mdl"
     }
 
     // Sounds for the weapon.
@@ -35,7 +35,6 @@ WeaponData
     }
     
     // Weapon particles
-    // MOM_TODO: Add Momentum versions of the trail and pulse particles and blue versions of TF2 particles
     ParticleData
     {
         "ExplosionEffect"          "mom_rocket_explosion_c"

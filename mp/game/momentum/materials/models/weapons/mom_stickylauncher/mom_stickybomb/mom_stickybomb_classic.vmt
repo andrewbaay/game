@@ -1,0 +1,20 @@
+PBR
+{
+
+	$basetexture 			models/weapons/mom_stickylauncher/mom_stickybomb/mom_stickybomb_classic_C
+	$bumpMap				models/weapons/mom_stickylauncher/mom_stickybomb/mom_stickybomb_classic_N
+    $mraoTexture            dev/MetallicRoughness45_MRAO
+    $emissionTexture        models/weapons/mom_stickylauncher/mom_stickybomb/mom_stickybomb_classic_E
+    $emissionScale          "[0 0 0]"
+	$envMap					env_cubemap	
+
+    $model                  1
+	$surfaceprop            "weapon"
+    Proxies
+    {
+        ArmTime
+        {
+			resultvar	$emissionScale
+        }
+    }
+}
