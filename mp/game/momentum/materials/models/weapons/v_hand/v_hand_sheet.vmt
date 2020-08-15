@@ -1,0 +1,10 @@
+PBR
+{
+	$basetexture 			models/weapons/v_hand/v_hand_sheet
+    $mraoTexture            models/weapons/v_hand/v_hand_sheet_MRAO
+	$bumpmap 				models/weapons/v_hand/v_hand_sheet_normal
+    $envmap                 env_cubemap
+    
+    $model                  1
+	
+}
