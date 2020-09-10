@@ -113,6 +113,19 @@ event FadeOutStageVel
     Animate HudSpeedMeter StageVelAlpha "0" Accel 5.0 0.75
 }
 
+event FirstStickyArm
+{
+    Animate CHudStickybombs FirstStickyColor "MomentumBlue" Accel 0.01 0.55
+}
+event SecondStickyArm
+{
+    Animate CHudStickybombs SecondStickyColor "MomentumBlue" Accel 0.01 0.55
+}
+event ThirdStickyArm
+{
+    Animate CHudStickybombs ThirdStickyColor "MomentumBlue" Accel 0.01 0.55
+}
+
 event PulseComparePanel
 {
     Animate BogusComparisonsPanel BogusAlpha "0" Linear 0.0 1.5

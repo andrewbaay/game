@@ -7,32 +7,41 @@
         "visible" "1"
         "enabled" "1"
         "xpos" "0"
-        "ypos" "0"
-        "wide" "20"
-        "tall" "22"
+        "ypos" "4"
+        "wide" "40"
+        "tall" "10"
         "pin_to_sibling" "HudStickyCharge"
         "pin_to_sibling_corner" "6" //bottom center
         "pin_corner_to_sibling" "4" //top center
-        "fgcolor_override" "0 0 0 0"
-        "bgcolor_override" "0 0 0 0"
+        "BgColor" "Blank"
+        "NoStickyColor" "BlackHO"
+        "PreArmColor" "BlackHO"
     }
-    "StickybombsLabel"
+    "FirstStickyState"
     {
-        "ControlName" "Label"
-        "fieldName"  "StickybombsLabel"
-        "xpos" "0"
-        "ypos" "0"
-        "wide" "f0"
-        "proportionalToParent" "1"
-        "autoResize" "1"
-        "visible" "1"
-        "enabled" "1"
-        "tabPosition" "0"
-        "textAlignment" "center"
-        "dulltext" "0"
-        "brighttext" "0"
-        "font" "HudNumbersSmallBold"
-        "fgcolor" "243 243 243 255"
-        "auto_tall_tocontents" "1"
+        "ControlName" "FirstStickyState"
+        "fieldName"   "Button"
+        "xpos" "0" // position set in code
+        "ypos" "0" // position set in code
+        "wide" "8"
+        "tall" "8"
+    }
+    "SecondStickyState"
+    {
+        "ControlName" "SecondStickyState"
+        "fieldName"   "Button"
+        "xpos" "16" // position set in code
+        "ypos" "0" // position set in code
+        "wide" "8"
+        "tall" "8"
+    }
+    "ThirdStickyState"
+    {
+        "ControlName" "ThirdStickyState"
+        "fieldName"   "Button"
+        "xpos" "32" // position set in code
+        "ypos" "0" // position set in code
+        "wide" "8"
+        "tall" "8"
     }
 }
