@@ -1557,6 +1557,30 @@ void CNoGrenadesZone::Precache()
     PrecacheModel(NOGRENADE_SPRITE);
 }
 
+void CNoGrenadesZone::OnStartTouch(CBaseEntity* pOther)
+{
+    if(!pOther)
+        return;
+
+    const auto pSticky = dynamic_cast<CMomStickybomb *>(pOther);
+    if (!pSticky)
+        return;
+
+    pSticky->SetCanExplode(false);
+}
+
+void CNoGrenadesZone::OnEndTouch(CBaseEntity* pOther)
+{
+    if (!pOther)
+        return;
+
+    const auto pSticky = dynamic_cast<CMomStickybomb *>(pOther);
+    if (!pSticky)
+        return;
+
+    pSticky->SetCanExplode(true);
+}
+
 bool CNoGrenadesZone::IsInsideNoGrenadesZone(CBaseEntity *pOther)
 {
     if ( pOther )
