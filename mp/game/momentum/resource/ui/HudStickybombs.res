@@ -16,6 +16,7 @@
         "BgColor" "Blank"
         "NoStickyColor" "BlackHO"
         "PreArmColor" "BlackHO"
+        "DisabledColor" "MomentumRed"
     }
     "FirstStickyState"
     {

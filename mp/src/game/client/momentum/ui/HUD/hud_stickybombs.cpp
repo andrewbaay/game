@@ -41,6 +41,7 @@ class CHudStickybombs : public CHudElement, public EditablePanel
 
     CPanelAnimationVar(Color, m_NoStickyColor, "NoStickyColor", "BlackHO");
     CPanelAnimationVar(Color, m_PreArmColor, "PreArmColor", "BlackHO");
+    CPanelAnimationVar(Color, m_DisabledColor, "DisabledColor", "MomentumRed");
     CPanelAnimationVar(Color, m_BgColor, "BgColor", "Blank");
     CPanelAnimationVar(Color, m_FirstStickyColor, "FirstStickyColor", "BlackHO");
     CPanelAnimationVar(Color, m_SecondStickyColor, "SecondStickyColor", "BlackHO");
@@ -90,13 +91,20 @@ void CHudStickybombs::OnThink()
     {
         if (i < iStickybombs)
         {
+            bool bCanExplode = true;
+            const auto pSticky = pStickylauncher->GetStickyByCount(i);
+            if (pSticky)
+            {
+                bCanExplode = pSticky->CanExplode();
+            }
+            
             if (m_Stickyboxes[i].flag)
             {
                 *m_Stickyboxes[i].color = m_PreArmColor;
                 g_pClientMode->GetViewportAnimationController()->StartAnimationSequence(m_Stickyboxes[i].animationSeq);
                 m_Stickyboxes[i].flag = false;
             }
-            m_Stickyboxes[i].button->SetBgColor(*m_Stickyboxes[i].color);
+            m_Stickyboxes[i].button->SetBgColor(bCanExplode ? *m_Stickyboxes[i].color : m_DisabledColor);
         }
         else if (!m_Stickyboxes[i].flag)
         {
@@ -106,6 +114,7 @@ void CHudStickybombs::OnThink()
                 V_swap(m_Stickyboxes[i].color, m_Stickyboxes[0].color);
                 V_swap(m_Stickyboxes[i].animationSeq, m_Stickyboxes[0].animationSeq);
             }
+            g_pClientMode->GetViewportAnimationController()->StopAnimationSequence(this, m_Stickyboxes[i].animationSeq);
             *m_Stickyboxes[i].color = m_NoStickyColor;
             m_Stickyboxes[i].button->SetBgColor(m_NoStickyColor);
             m_Stickyboxes[i].flag = true;
