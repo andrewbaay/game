@@ -35,10 +35,12 @@ class CHudStickybombs : public CHudElement, public EditablePanel
     bool ShouldDraw() override;
     void OnThink() override;
     void ApplySchemeSettings(IScheme *pScheme) override;
+    void PerformLayout() override;
 
   private:
     Stickybox_t m_Stickyboxes[MOM_WEAPON_STICKYBOMB_COUNT];
 
+    CPanelAnimationVar(int, m_iBoxDimension, "BoxDimension", "8");
     CPanelAnimationVar(Color, m_NoStickyColor, "NoStickyColor", "BlackHO");
     CPanelAnimationVar(Color, m_PreArmColor, "PreArmColor", "BlackHO");
     CPanelAnimationVar(Color, m_DisabledColor, "DisabledColor", "MomentumRed");
@@ -132,4 +134,22 @@ void CHudStickybombs::ApplySchemeSettings(IScheme* pScheme)
     }
 
     SetBgColor(m_BgColor);
+}
+
+void CHudStickybombs::PerformLayout()
+{
+    BaseClass::PerformLayout();
+
+    int iSpacePerBox = GetWide() / MOM_WEAPON_STICKYBOMB_COUNT;
+    int iXPosAcc = 0;
+    for (int i = 0; i < MOM_WEAPON_STICKYBOMB_COUNT; i++)
+    {
+        int iScaledBoxDimension = GetScaledVal(m_iBoxDimension);
+
+        m_Stickyboxes[i].button->SetWide(iScaledBoxDimension);
+        m_Stickyboxes[i].button->SetTall(iScaledBoxDimension);
+        m_Stickyboxes[i].button->SetPos(iXPosAcc + (iSpacePerBox - iScaledBoxDimension) / 2, GetTall() / 2 - iScaledBoxDimension / 2);
+
+        iXPosAcc += iSpacePerBox;
+    }
 }

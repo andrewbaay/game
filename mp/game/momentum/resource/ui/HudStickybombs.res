@@ -17,6 +17,7 @@
         "NoStickyColor" "BlackHO"
         "PreArmColor" "BlackHO"
         "DisabledColor" "MomentumRed"
+        "BoxDimension" "8"
     }
     "FirstStickyState"
     {
@@ -24,25 +25,25 @@
         "fieldName"   "Button"
         "xpos" "0" // position set in code
         "ypos" "0" // position set in code
-        "wide" "8"
-        "tall" "8"
+        "wide" "0" // see "BoxDimension" above
+        "tall" "0" // see "BoxDimension" above
     }
     "SecondStickyState"
     {
         "ControlName" "SecondStickyState"
         "fieldName"   "Button"
-        "xpos" "16" // position set in code
+        "xpos" "0" // position set in code
         "ypos" "0" // position set in code
-        "wide" "8"
-        "tall" "8"
+        "wide" "0" // see "BoxDimension" above
+        "tall" "0" // see "BoxDimension" above
     }
     "ThirdStickyState"
     {
         "ControlName" "ThirdStickyState"
         "fieldName"   "Button"
-        "xpos" "32" // position set in code
+        "xpos" "0" // position set in code
         "ypos" "0" // position set in code
-        "wide" "8"
-        "tall" "8"
+        "wide" "0" // see "BoxDimension" above
+        "tall" "0" // see "BoxDimension" above
     }
 }
