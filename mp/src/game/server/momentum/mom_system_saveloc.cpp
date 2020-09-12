@@ -23,6 +23,12 @@ SavedLocation_t::SavedLocation_t() : m_bCrouched(false), m_vecPos(vec3_origin), 
 {
     m_szTargetName[0] = '\0';
     m_szTargetClassName[0] = '\0';
+    m_Collectibles = new CMomentumPlayerCollectibles;
+}
+
+SavedLocation_t::~SavedLocation_t()
+{
+    delete m_Collectibles;
 }
 
 SavedLocation_t::SavedLocation_t(CMomentumPlayer* pPlayer, int components /*= SAVELOC_ALL*/) : SavedLocation_t()
@@ -64,6 +70,9 @@ SavedLocation_t::SavedLocation_t(CMomentumPlayer* pPlayer, int components /*= SA
 
     if ( components & SAVELOC_EVENT_QUEUE )
         g_EventQueue.SaveForTarget(pPlayer, entEventsState);
+
+    if ( components & SAVELOC_COLLECTIBLES )
+        *m_Collectibles = pPlayer->m_Collectibles;
 }
 
 void SavedLocation_t::Save(KeyValues* kvCP) const
@@ -105,6 +114,9 @@ void SavedLocation_t::Save(KeyValues* kvCP) const
 
     if ( m_savedComponents & SAVELOC_EVENT_QUEUE )
         entEventsState.SaveToKeyValues(kvCP);
+
+    if ( m_savedComponents & SAVELOC_COLLECTIBLES )
+        m_Collectibles->SaveToKeyValues(kvCP);
 }
 
 void SavedLocation_t::Load(KeyValues* pKv)
@@ -122,6 +134,7 @@ void SavedLocation_t::Load(KeyValues* pKv)
     m_iTrack = pKv->GetInt( "track", -1 );
     m_iZone = pKv->GetInt( "zone", -1 );
     entEventsState.LoadFromKeyValues(pKv);
+    m_Collectibles->LoadFromKeyValues(pKv);
 }
 
 void SavedLocation_t::Teleport(CMomentumPlayer* pPlayer)
@@ -165,6 +178,9 @@ void SavedLocation_t::Teleport(CMomentumPlayer* pPlayer)
 
     if ( m_savedComponents & SAVELOC_EVENT_QUEUE )
         g_EventQueue.RestoreForTarget(pPlayer, entEventsState);
+
+    if ( m_savedComponents & SAVELOC_COLLECTIBLES )
+        pPlayer->m_Collectibles = *m_Collectibles;
 }
 
 bool SavedLocation_t::Read(CUtlBuffer &mem)

@@ -3,6 +3,7 @@
 #include "eventqueue.h"
 
 class CMomentumPlayer;
+class CMomentumPlayerCollectibles;
 class SavelocReqPacket;
 
 enum SavedLocationComponent_t
@@ -21,6 +22,7 @@ enum SavedLocationComponent_t
     SAVELOC_DUCKED = 1 << 9,
     SAVELOC_TRACK = 1 << 10,
     SAVELOC_ZONE = 1 << 11,
+    SAVELOC_COLLECTIBLES = 1 << 12,
 
     SAVELOC_ALL = ~SAVELOC_NONE,
 };
@@ -39,10 +41,12 @@ struct SavedLocation_t
     int m_iDisabledButtons;
     int m_iTrack, m_iZone;
     CEventQueueState entEventsState;
+    CMomentumPlayerCollectibles *m_Collectibles;
 
     int m_savedComponents;
 
     SavedLocation_t();
+    ~SavedLocation_t();
 
     // Called when the player creates a checkpoint
     SavedLocation_t(CMomentumPlayer* pPlayer, int components = SAVELOC_ALL);
