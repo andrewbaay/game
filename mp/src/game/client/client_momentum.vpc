@@ -160,6 +160,8 @@ $Project "Client (Momentum)"
                     $File "momentum\ui\controls\VControlsListPanel.cpp"
                     $File "momentum\ui\controls\DoubleLabel.h"
                     $File "momentum\ui\controls\DoubleLabel.cpp"
+                    $File "momentum\ui\controls\Stickybox.h"
+                    $File "momentum\ui\controls\Stickybox.cpp"
                 }
 
                 $Folder "Lobby"

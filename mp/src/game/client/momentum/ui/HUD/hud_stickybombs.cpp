@@ -1,8 +1,6 @@
 #include "cbase.h"
 
 #include <vgui_controls/EditablePanel.h>
-#include <vgui_controls/AnimationController.h>
-#include <vgui_controls/Button.h>
 
 #include "c_mom_player.h"
 #include "hudelement.h"
@@ -10,20 +8,13 @@
 #include "mom_system_gamemode.h"
 #include "weapon/weapon_mom_stickybomblauncher.h"
 #include "weapon/weapon_shareddefs.h"
+#include "controls/Stickybox.h"
 
 #include "tier0/memdbgon.h"
 
 using namespace vgui;
 
 static MAKE_TOGGLE_CONVAR(mom_hud_sj_stickycount_enable, "1", FCVAR_ARCHIVE, "Toggles the stickybomb counter.\n");
-
-struct Stickybox_t
-{
-    Button *button;
-    Color *color;
-    const char *animationSeq;
-    bool flag;
-};
 
 class CHudStickybombs : public CHudElement, public EditablePanel
 {
@@ -38,12 +29,9 @@ class CHudStickybombs : public CHudElement, public EditablePanel
     void PerformLayout() override;
 
   private:
-    Stickybox_t m_Stickyboxes[MOM_WEAPON_STICKYBOMB_COUNT];
+    CUtlVector<Stickybox*> m_Stickyboxes;
 
     CPanelAnimationVar(int, m_iBoxDimension, "BoxDimension", "8");
-    CPanelAnimationVar(Color, m_NoStickyColor, "NoStickyColor", "BlackHO");
-    CPanelAnimationVar(Color, m_PreArmColor, "PreArmColor", "BlackHO");
-    CPanelAnimationVar(Color, m_DisabledColor, "DisabledColor", "MomentumRed");
     CPanelAnimationVar(Color, m_BgColor, "BgColor", "Blank");
     CPanelAnimationVar(Color, m_FirstStickyColor, "FirstStickyColor", "BlackHO");
     CPanelAnimationVar(Color, m_SecondStickyColor, "SecondStickyColor", "BlackHO");
@@ -57,9 +45,10 @@ CHudStickybombs::CHudStickybombs(const char *pElementName)
 {
     SetHiddenBits(HIDEHUD_LEADERBOARDS);
 
-    m_Stickyboxes[0] = { new Button(this, "FirstStickyState", ""), &m_FirstStickyColor, "FirstStickyArm", false };
-    m_Stickyboxes[1] = { new Button(this, "SecondStickyState", ""), &m_SecondStickyColor, "SecondStickyArm", false };
-    m_Stickyboxes[2] = { new Button(this, "ThirdStickyState", ""), &m_ThirdStickyColor, "ThirdStickyArm", false };
+    m_Stickyboxes.EnsureCount(MOM_WEAPON_STICKYBOMB_COUNT);
+    m_Stickyboxes[0] = new Stickybox(this, "FirstStickybox", &m_FirstStickyColor, "FirstStickyArm");
+    m_Stickyboxes[1] = new Stickybox(this, "SecondStickybox", &m_SecondStickyColor, "SecondStickyArm");
+    m_Stickyboxes[2] = new Stickybox(this, "ThirdStickybox", &m_ThirdStickyColor, "ThirdStickyArm");
 
     LoadControlSettings("resource/ui/HudStickybombs.res");
 }
@@ -100,26 +89,17 @@ void CHudStickybombs::OnThink()
                 bCanExplode = pSticky->CanExplode();
             }
             
-            if (m_Stickyboxes[i].flag)
-            {
-                *m_Stickyboxes[i].color = m_PreArmColor;
-                g_pClientMode->GetViewportAnimationController()->StartAnimationSequence(m_Stickyboxes[i].animationSeq);
-                m_Stickyboxes[i].flag = false;
-            }
-            m_Stickyboxes[i].button->SetBgColor(bCanExplode ? *m_Stickyboxes[i].color : m_DisabledColor);
+            m_Stickyboxes[i]->Process(bCanExplode ? STICKYBOX_PROCTYPE_ACTIVE : STICKYBOX_PROCTYPE_DISABLED);
         }
-        else if (!m_Stickyboxes[i].flag)
+        else
         {
-            if (i > 0)
-            {
-                // moving into left-most box, so swap color animation to keep the current fade-in
-                V_swap(m_Stickyboxes[i].color, m_Stickyboxes[0].color);
-                V_swap(m_Stickyboxes[i].animationSeq, m_Stickyboxes[0].animationSeq);
-            }
-            g_pClientMode->GetViewportAnimationController()->StopAnimationSequence(this, m_Stickyboxes[i].animationSeq);
-            *m_Stickyboxes[i].color = m_NoStickyColor;
-            m_Stickyboxes[i].button->SetBgColor(m_NoStickyColor);
-            m_Stickyboxes[i].flag = true;
+            m_Stickyboxes[i]->Process(STICKYBOX_PROCTYPE_NOSTICKY);
+        }
+        
+        if (m_Stickyboxes[i]->IsProcessed() && i > 0 && i >= iStickybombs)
+        {
+            // moving into left-most box, so swap color animation to keep the current fade-in animation
+            m_Stickyboxes[i]->SwapAnimations(m_Stickyboxes[0]);
         }
     }
 }
@@ -127,12 +107,6 @@ void CHudStickybombs::OnThink()
 void CHudStickybombs::ApplySchemeSettings(IScheme* pScheme)
 {
     BaseClass::ApplySchemeSettings(pScheme);
-
-    for (int i=0; i < MOM_WEAPON_STICKYBOMB_COUNT; i++)
-    {
-        m_Stickyboxes[i].button->SetBgColor(m_NoStickyColor);
-    }
-
     SetBgColor(m_BgColor);
 }
 
@@ -146,9 +120,9 @@ void CHudStickybombs::PerformLayout()
     {
         int iScaledBoxDimension = GetScaledVal(m_iBoxDimension);
 
-        m_Stickyboxes[i].button->SetWide(iScaledBoxDimension);
-        m_Stickyboxes[i].button->SetTall(iScaledBoxDimension);
-        m_Stickyboxes[i].button->SetPos(iXPosAcc + (iSpacePerBox - iScaledBoxDimension) / 2, GetTall() / 2 - iScaledBoxDimension / 2);
+        m_Stickyboxes[i]->SetWide(iScaledBoxDimension);
+        m_Stickyboxes[i]->SetTall(iScaledBoxDimension);
+        m_Stickyboxes[i]->SetPos(iXPosAcc + (iSpacePerBox - iScaledBoxDimension) / 2, GetTall() / 2 - iScaledBoxDimension / 2);
 
         iXPosAcc += iSpacePerBox;
     }

@@ -6,44 +6,47 @@
         "fieldName"   "CHudStickybombs"
         "visible" "1"
         "enabled" "1"
-        "xpos" "0"
-        "ypos" "4"
+        "xpos" "c-20"
+        "ypos" "c+107"
         "wide" "40"
         "tall" "10"
-        "pin_to_sibling" "HudStickyCharge"
-        "pin_to_sibling_corner" "6" //bottom center
-        "pin_corner_to_sibling" "4" //top center
         "BgColor" "Blank"
-        "NoStickyColor" "BlackHO"
-        "PreArmColor" "BlackHO"
-        "DisabledColor" "MomentumRed"
         "BoxDimension" "8"
     }
-    "FirstStickyState"
+    "FirstStickybox"
     {
-        "ControlName" "FirstStickyState"
-        "fieldName"   "Button"
+        "ControlName" "FirstStickybox"
+        "fieldName"   "Stickybox"
         "xpos" "0" // position set in code
         "ypos" "0" // position set in code
         "wide" "0" // see "BoxDimension" above
         "tall" "0" // see "BoxDimension" above
+        "NoStickyColor" "BlackHO"
+        "PreArmColor"   "BlackHO"
+        "DisabledColor" "MomentumRed"
     }
-    "SecondStickyState"
+    "SecondStickybox"
     {
-        "ControlName" "SecondStickyState"
-        "fieldName"   "Button"
+        "ControlName" "SecondStickybox"
+        "fieldName"   "Stickybox"
         "xpos" "0" // position set in code
         "ypos" "0" // position set in code
         "wide" "0" // see "BoxDimension" above
         "tall" "0" // see "BoxDimension" above
+        "NoStickyColor" "BlackHO"
+        "PreArmColor"   "BlackHO"
+        "DisabledColor" "MomentumRed"
     }
-    "ThirdStickyState"
+    "ThirdStickybox"
     {
-        "ControlName" "ThirdStickyState"
-        "fieldName"   "Button"
+        "ControlName" "ThirdStickybox"
+        "fieldName"   "Stickybox"
         "xpos" "0" // position set in code
         "ypos" "0" // position set in code
         "wide" "0" // see "BoxDimension" above
         "tall" "0" // see "BoxDimension" above
+        "NoStickyColor" "BlackHO"
+        "PreArmColor"   "BlackHO"
+        "DisabledColor" "MomentumRed"
     }
 }
