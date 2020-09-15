@@ -27,6 +27,7 @@ WeaponData
     SoundData
     {
         "single_shot"       "StickybombLauncher.Single"
+        "charged_shot"      "StickybombLauncher.ChargedShot"
         "explosion"         "StickybombLauncher.Explosion"
         "detonate"          "StickybombLauncher.Detonate"
         "deny"              "StickybombLauncher.Deny"
