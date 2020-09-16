@@ -102,6 +102,16 @@
 
 }
 
+"StickybombLauncher.SingleHigh"
+{
+    "channel"	    "CHAN_WEAPON"
+    "volume"	    ".33"
+    "soundlevel"	"SNDLVL_105"
+    
+    "wave"          ")weapons/mom_stickylauncher/mom_stickylauncher-Fire02.wav"
+
+}
+
 "StickybombLauncher.ChargedShot"
 {
     "channel"	    "CHAN_WEAPON"

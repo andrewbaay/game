@@ -24,6 +24,9 @@ MAKE_TOGGLE_CONVAR(mom_sj_sound_detonate_fail_enable, "1", FCVAR_ARCHIVE | FCVAR
 MAKE_TOGGLE_CONVAR(mom_sj_sound_detonate_success_enable, "1", FCVAR_ARCHIVE | FCVAR_REPLICATED, "Toggle the sticky launcher detonate success sound. 0 = OFF, 1 = ON\n");
 MAKE_TOGGLE_CONVAR(mom_sj_sound_charge_enable, "1", FCVAR_ARCHIVE | FCVAR_REPLICATED, "Toggle the sticky launcher charging sound. 0 = OFF, 1 = ON\n");
 
+MAKE_CONVAR(mom_sj_sound_shot_high_threshold, "2", FCVAR_ARCHIVE | FCVAR_REPLICATED,
+           "Sets the amount of time a sticky needs to be charged before playing a more powerful version of the sticky shot.\n", 0.0f, MOM_STICKYBOMB_MAX_CHARGE_TIME);
+
 IMPLEMENT_NETWORKCLASS_ALIASED(MomentumStickybombLauncher, DT_MomentumStickybombLauncher)
 
 BEGIN_NETWORK_TABLE(CMomentumStickybombLauncher, DT_MomentumStickybombLauncher)
@@ -148,7 +151,7 @@ void CMomentumStickybombLauncher::LaunchGrenade()
 
     StopWeaponSound(GetWeaponSound("charge"));
 
-    WeaponSound(GetWeaponSound("single_shot"));
+    WeaponSound(GetWeaponSound(gpGlobals->curtime - m_flChargeBeginTime < mom_sj_sound_shot_high_threshold.GetFloat() ? "single_shot" : "single_shot_high"));
 
     m_flChargeBeginTime = 0;
 }
